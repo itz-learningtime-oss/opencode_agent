@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="terminal_background">#FF101418</color>
+    <color name="terminal_foreground">#FFD8DEE9</color>
+    <color name="toolbar_background">#FF1A1F26</color>
+    <color name="toolbar_button">#FF242B33</color>
+    <color name="toolbar_button_active">#FF3B82F6</color>
+    <color name="accent">#FF3B82F6</color>
+    <color name="status_ok">#FF22C55E</color>
+    <color name="status_error">#FFEF4444</color>
+</resources>

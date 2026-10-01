@@ -1,0 +1,6 @@
+{
+  "manifestVersion": 1,
+  "runtime": "none",
+  "note": "No OpenCode/Node.js runtime exists for armeabi-v7a Android (upstream ships linux-x64/arm64 only; Android 10 W^X blocks app-storage exec at targetSdk 34). Entries may be added here if a verified, legally distributable ARMv7 Android runtime is produced. See COMPATIBILITY.md.",
+  "entries": []
+}

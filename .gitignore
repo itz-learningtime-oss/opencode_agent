@@ -1,0 +1,15 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+!gradle/wrapper/gradle-wrapper.jar
+# Freebuff workspace metadata
+.freebuff/
+project-id

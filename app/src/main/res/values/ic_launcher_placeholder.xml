@@ -1,0 +1,3 @@
+<resources>
+    <!-- For API < 26 the manifest icon falls back to a drawable-based icon -->
+</resources>
