@@ -143,8 +143,8 @@ class AnsiParser(private val screen: TerminalBuffer) {
                 39 -> screen.setAttribute(screen.currentAttr.copy(fg = null))
                 in 40..47 -> screen.setAttribute(screen.currentAttr.copy(bg = p - 40))
                 49 -> screen.setAttribute(screen.currentAttr.copy(bg = null))
-                90..97 -> screen.setAttribute(screen.currentAttr.copy(fg = p - 90 + 8))
-                100..107 -> screen.setAttribute(screen.currentAttr.copy(bg = p - 100 + 8))
+                in 90..97 -> screen.setAttribute(screen.currentAttr.copy(fg = p - 90 + 8))
+                in 100..107 -> screen.setAttribute(screen.currentAttr.copy(bg = p - 100 + 8))
                 38, 48 -> {
                     // Extended color: 38;5;N or 38;2;R;G;B
                     val target = if (p == 38) "fg" else "bg"

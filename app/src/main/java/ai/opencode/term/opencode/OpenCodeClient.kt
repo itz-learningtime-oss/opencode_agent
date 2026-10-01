@@ -121,9 +121,7 @@ class OpenCodeClient(
             conn.requestMethod = "POST"
             conn.doOutput = true
             conn.setRequestProperty("Content-Type", "application/json")
-            val payload = json.encodeToString(
-                mapOf("parts" to listOf(TextPart(text = text)))
-            )
+            val payload = """{"parts":[{"type":"text","text":${json.encodeToString(kotlinx.serialization.serializer<String>(), text)}}]}"""
             conn.outputStream.use { it.write(payload.toByteArray()) }
             handleResponse(conn) { body ->
                 // Response contains { info, parts }; extract text parts.
@@ -158,10 +156,9 @@ class OpenCodeClient(
                     conn.readTimeout = 0 // stream indefinitely
                     conn.inputStream.bufferedReader().use { reader ->
                         val sb = StringBuilder()
-                        var line: String?
-                        while (sseActive.get() && reader.readLine().also { line = it } != null) {
+                        while (sseActive.get()) {
+                            val line = reader.readLine() ?: break
                             when {
-                                line == null -> break
                                 line.startsWith("data:") -> sb.appendLine(line.removePrefix("data:").trim())
                                 line.isEmpty() && sb.isNotEmpty() -> {
                                     eventFlow.emit(sb.toString())
@@ -188,7 +185,7 @@ class OpenCodeClient(
 
     // ---------------- helpers ----------------
 
-    private inline fun <T> handleResponse(conn: HttpURLConnection, parse: (String) -> T): Result<T> {
+    private fun <T> handleResponse(conn: HttpURLConnection, parse: (String) -> T): Result<T> {
         val code = conn.responseCode
         return when {
             code == 401 || code == 403 -> Result.Err(Result.Kind.AUTH, "Invalid credentials (HTTP $code)")
@@ -206,7 +203,7 @@ class OpenCodeClient(
         }
     }
 
-    private suspend inline fun <T> requestJson(path: String, parse: (String) -> T): Result<T> =
+    private suspend fun <T> requestJson(path: String, parse: (String) -> T): Result<T> =
         withContext(Dispatchers.IO) {
             var conn: HttpURLConnection? = null
             try {

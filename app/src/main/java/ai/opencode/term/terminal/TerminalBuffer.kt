@@ -36,7 +36,8 @@ class TerminalBuffer(
         private set
 
     fun currentAttr(): TerminalCell.Attr = currentAttr
-    private var currentAttr = TerminalCell.Attr()
+    var currentAttr = TerminalCell.Attr()
+        private set
 
     fun setAttribute(attr: TerminalCell.Attr) {
         currentAttr = attr

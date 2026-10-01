@@ -53,8 +53,8 @@ class SettingsDialog(
 
         fun label(text: String) = TextView(ctx).apply { this.text = text }
 
-        urlEdit = EditText(ctx).apply { hint = ctx.getString(ai.opencode.term.R.string.server_url_hint); inputType = InputType.TYPE_TEXT_URI }
-        userEdit = EditText(ctx).apply { inputType = InputType.TYPE_TEXT_VARIATION_USERNAME }
+        urlEdit = EditText(ctx).apply { hint = ctx.getString(ai.opencode.term.R.string.server_url_hint); inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI }
+        userEdit = EditText(ctx).apply { inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL }
         tokenEdit = EditText(ctx).apply {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         }

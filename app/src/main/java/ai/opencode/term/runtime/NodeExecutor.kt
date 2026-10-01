@@ -73,7 +73,7 @@ class NodeExecutor(private val context: Context) {
             pb.redirectErrorStream(false)
             val proc = pb.start()
             startPumps(proc, onOutput, onExit)
-            StartResult.Started("pid=${proc.pid()}")
+            StartResult.Started("runtime=${candidate.file.name}")
         } catch (e: java.io.IOException) {
             StartResult.Failed("Failed to exec runtime: ${e.message} (Android W^X policy may block app-storage exec)")
         }
