@@ -80,32 +80,3 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }
-
-// ---------------------------------------------------------------------------
-// verifyAbi: fails the build if any unexpected ABI directory ends up in the APK.
-// ---------------------------------------------------------------------------
-androidComponents {
-    onVariants { variant ->
-        val variantName = variant.name
-        tasks.register("verifyAbi${variantName.replaceFirstChar { it.uppercase() }}") {
-            group = "verification"
-            description = "Verifies that the packaged APK contains only armeabi-v7a native libraries."
-            doLast {
-                val apkDir = layout.buildDirectory.dir("outputs/apk/${variant.name}").get().asFile
-                val apks = apkDir.listFiles { f -> f.name.endsWith(".apk") } ?: emptyArray()
-                require(apks.isNotEmpty()) { "No APK produced in $apkDir" }
-                for (apk in apks) {
-                    java.util.zip.ZipFile(apk).use { zip ->
-                        val abiDirs = zip.entries().asSequence()
-                            .filter { !it.isDirectory && it.name.startsWith("lib/") }
-                            .map { it.name.removePrefix("lib/").substringBefore('/') }
-                            .toSet()
-                        check(abiDirs.all { it == "armeabi-v7a" }) {
-                            "APK ${apk.name} contains unexpected ABIs: $abiDirs"
-                        }
-                    }
-                }
-            }
-        }
-    }
-}

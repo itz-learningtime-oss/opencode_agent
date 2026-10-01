@@ -16,8 +16,8 @@
 # release APK (unsigned → uses debug signing config as shipped; replace for distribution)
 ./gradlew assembleRelease
 
-# verify the APK contains ONLY armeabi-v7a native libs
-./gradlew verifyAbiRelease
+# verify the APK contains ONLY armeabi-v7a native libs (shell, any OS)
+ unzip -l app/build/outputs/apk/debug/app-debug.apk | grep "lib/"
 
 # unit tests (JVM, no device)
 ./gradlew testDebugUnitTest
@@ -30,8 +30,9 @@ Outputs land in `app/build/outputs/apk/{debug,release}/`.
 
 ## ABI guarantee
 
-`app/build.gradle.kts` sets `ndk.abiFilters += "armeabi-v7a"` and the `verifyAbi*`
-tasks fail the build if any other ABI directory appears in the APK. A 32-bit-only APK
+`app/build.gradle.kts` sets `ndk.abiFilters += "armeabi-v7a"`. The GitHub Actions
+workflow (`​.github/workflows/build.yml`) fails any build where the packaged APK
+contains an ABI directory other than armeabi-v7a. A 32-bit-only APK
 will **not** install on devices that ship arm64-only userspace — that is expected.
 
 ## Signing for distribution
